@@ -38,10 +38,10 @@ namespace BeatlesDemo
                 }
             };
             var singersAndGuitarPlayers =
-                from person in beatles
+                (from person in beatles
                 from instrument in person.Instruments
                 where instrument == "Guitar" || instrument == "Vocals"
-                select person.Name;
+                select person.Name).Distinct();
 
             foreach (var item in singersAndGuitarPlayers)
             {
