@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<people xmlns="urn:www-infosupport-com:adcsb:2013:xml-demo">
+  <person name="Manuel">
+    <instrument type="Piano" />
+  </person>
+
+  <person name="Ringo">
+    <instrument type="Guitar" />
+  </person>
+
+  <person name="Titus" />
+</people>
