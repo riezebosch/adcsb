@@ -21,16 +21,8 @@ namespace AsyncDemoFib
         private async void button1_Click(object sender, EventArgs e)
         {
             int n = (int)numericUpDown1.Value;
-            try
-            {
-                var result = await Run(n);
-                await Task.WhenAny(Task.Delay(5000), Task.Delay(2000));
-                label1.Text = result;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            var result = await Run(n);
+            label1.Text = result;
         }
 
         private Task<string> Run(int n)
@@ -40,6 +32,11 @@ namespace AsyncDemoFib
 
         private int Fib(int n)
         {
+            return Fib(n, 0, 1);
+        }
+
+        private int Fib(int n, int a, int b)
+        {
             if (n == 0)
             {
                 return 0;
@@ -47,12 +44,12 @@ namespace AsyncDemoFib
 
             if (n == 1)
             {
-                return 1;
+                return b;
             }
 
-            //throw new ArgumentException();
-
-            return Fib(n-2) + Fib(n-1);
+            // Met dank aan BZ is deze demo waardeloos omdat
+            // het algoritme veel te snel is geworden.
+            return Fib(n - 1, b, a + b);
         }
     }
 }
