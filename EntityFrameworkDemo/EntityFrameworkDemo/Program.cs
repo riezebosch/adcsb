@@ -29,7 +29,7 @@ namespace EntityFrameworkDemo
                 //            where p.Name.StartsWith("m")
                 //            select p.Name;
 
-                var query = ((IEnumerable<Person>)context.People)
+                var query = context.People
                     .Where(p => p.Name.StartsWith("M"))
                     .Select(p => p.Name);
 

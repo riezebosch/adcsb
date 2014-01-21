@@ -12,6 +12,8 @@ namespace LinqToXmlDemo
         static void Main(string[] args)
         {
             XNamespace ns = "urn:www-infosupport-com:adcsb:2013:xml-demo";
+            Console.WriteLine(ns + "demo");
+            
             var guitarPlayers = from person in XDocument.Load("XMLFile1.xml")
                                     .Element(ns + "people")
                                     .Elements(ns + "person")
