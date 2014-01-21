@@ -18,21 +18,24 @@ namespace AsyncDemoFib
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private async void button1_Click(object sender, EventArgs e)
         {
-            var t = new Thread(Run);
-            t.Start();
-            
+            int n = (int)numericUpDown1.Value;
+            try
+            {
+                var result = await Run(n);
+                await Task.WhenAny(Task.Delay(5000), Task.Delay(2000));
+                label1.Text = result;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
-        private void Run()
+        private Task<string> Run(int n)
         {
-            int n = 0;
-            this.Invoke(new Action(() => n = (int)numericUpDown1.Value));
-            
-            string result = Fib(n).ToString();
-
-            this.Invoke(new Action(() => label1.Text = result));
+            return Task.Run(() => Fib(n).ToString());
         }
 
         private int Fib(int n)
@@ -46,6 +49,8 @@ namespace AsyncDemoFib
             {
                 return 1;
             }
+
+            //throw new ArgumentException();
 
             return Fib(n-2) + Fib(n-1);
         }
