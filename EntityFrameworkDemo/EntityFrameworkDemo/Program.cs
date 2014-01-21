@@ -25,9 +25,13 @@ namespace EntityFrameworkDemo
         {
             using (var context = new MyContext())
             {
-                var query = from p in context.People
-                            where p.Name.StartsWith("m")
-                            select p.Name;
+                //var query = from p in context.People
+                //            where p.Name.StartsWith("m")
+                //            select p.Name;
+
+                var query = ((IEnumerable<Person>)context.People)
+                    .Where(p => p.Name.StartsWith("M"))
+                    .Select(p => p.Name);
 
                 foreach (var p in query)
                 {
