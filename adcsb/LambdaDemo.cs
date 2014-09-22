@@ -1,10 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+//using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using adcsb_asdfasdfsadf;
 namespace adcsb
 {
     public delegate void MyDelegate(string input);
@@ -44,15 +44,15 @@ namespace adcsb
         [TestMethod]
         public void TestFilteringAListWithDelegates()
         {
-            int[] items = { 1, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-            items = Where(items, IsEven);
+            IEnumerable<int> items = new int[]{ 1, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            items = items.Where(IsEven);
 
             //foreach (var item in items)
             //{
             //    Console.WriteLine(item);
             //}
 
-            items = Where(items, GreaterThanFive);
+            items = items.Where(GreaterThanFive);
             foreach (var item in items)
             {
                 Console.WriteLine(item);
@@ -60,6 +60,7 @@ namespace adcsb
         }
 
         delegate bool Predicate(int item);
+        delegate bool Predicate<T>(T item);
 
         private bool IsEven(int item)
         {
@@ -71,19 +72,35 @@ namespace adcsb
             return item > 5;
         }
 
-        private int[] Where(int[] items, Predicate p)
+        [TestMethod]
+        public void WhatAreAnonymousMethods()
         {
-            var result = new List<int>();
+            int[] items = { 0, 1, 1, 2, 3, 5, 8, 13 };
+            
+            // Aanroep mbv methode in delegate
+            items.Where(IsEven);
 
-            foreach (var item in items)
-            {
-                if (p(item))
-                {
-                    result.Add(item);
-                }
-            }
+            // Anonymous Methods
+            items.Where(delegate(int i) { return i % 2 == 0; });
 
-            return result.ToArray();
+            // Lamdba's, allemaal equivalent
+            items.Where((int i) => { return i % 2 == 0; });
+            items.Where(i => { return i % 2 == 0; });
+            items.Where(i => i % 2 == 0);
+        }
+
+        [TestMethod]
+        public void WhatAreCapturedOuterVariables()
+        {
+            string input = "test";
+            input += DateTime.Today;
+
+            ExecuteActionWithOuterVariable(() => Console.WriteLine(input));
+        }
+
+        private static void ExecuteActionWithOuterVariable(Action action)
+        {
+            action();
         }
     }
 
