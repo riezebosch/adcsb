@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 
 namespace adcsb
 {
@@ -21,12 +22,13 @@ namespace adcsb
             p.Leeftijd = 32;
             PrintPersoon(p);
 
-            PrintPersoon(new Persoon { 
-                Naam = "Manuel Riezebosch", 
-                Leeftijd = 32 
+            PrintPersoon(new Persoon
+            {
+                Naam = "Manuel Riezebosch",
+                Leeftijd = 32
             });
 
-            using (var myDisposable = new MyDisposable { Leeftijd = 3})
+            using (var myDisposable = new MyDisposable { Leeftijd = 3 })
             {
 
             }
@@ -35,6 +37,29 @@ namespace adcsb
         private void PrintPersoon(Persoon persoon)
         {
             throw new NotImplementedException();
+        }
+
+        [TestMethod]
+        public void CollectionInitializer()
+        {
+            var personen = new List<Persoon>
+            {
+                new Persoon { Naam = "Manuel Riezebosch", Leeftijd = 32 },
+                new Persoon { Naam = "Ezra Riezebosch", Leeftijd = 4}
+            };
+
+            var dict = new Dictionary<string, Persoon>
+            {
+                { "Manuel", new Persoon { Naam = "Manuel Riezebosch" } }
+            };
+
+            int[] items1 = { 1, 2, 4, 5, 6, 7, 8, 9 };
+            var items2 = new int[]{ 1, 2, 4, 5, 6, 7, 8, 9 };
+
+            var x = new ClassMetEenAddMethode
+            {
+                1, 2, 3, 4, 5, 6, 7, 8, 9
+            };
         }
     }
 }
