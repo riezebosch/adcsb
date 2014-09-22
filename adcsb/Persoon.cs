@@ -8,6 +8,7 @@ namespace adcsb
 {
     partial class Persoon
     {
+
         public int Leeftijd { get; set; }
 
         partial void CustomInitialize(int p)

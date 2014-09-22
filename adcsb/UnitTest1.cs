@@ -36,7 +36,6 @@ namespace adcsb
 
         private void PrintPersoon(Persoon persoon)
         {
-            throw new NotImplementedException();
         }
 
         [TestMethod]
@@ -60,6 +59,65 @@ namespace adcsb
             {
                 1, 2, 3, 4, 5, 6, 7, 8, 9
             };
+        }
+
+        [TestMethod]
+        public void AnonymousTypes()
+        {
+            object test = new object();
+            test = "Manuel";
+
+            try
+            {
+                int i = (int)test;
+                Assert.Fail();
+            }
+            catch (InvalidCastException)
+            {
+            }
+
+            Console.WriteLine(test);
+
+            var anonymous = new 
+            { 
+                Naam = "Manuel", 
+                Leeftijd = 32 
+            };
+
+            var p1 = new Persoon { Leeftijd = 32, Naam = "Manuel Riezebosch" };
+            var p2 = new { p1.Leeftijd, p1.Naam };
+
+            var x = CanAnAnonymousTypeLeaveTheMethodScope();
+
+            var a1 = new { X = 13, Date = new DateTime(2014, 09, 22) };
+            var a2 = new { Date = new DateTime(2014, 09, 22), X = 13 };
+            Assert.AreNotEqual(a1, a2);
+        }
+
+
+
+        private static object CanAnAnonymousTypeLeaveTheMethodScope()
+        {
+            return new { X = 13 };
+        }
+
+        [TestMethod]
+        public void AutoImplementedPropertiesAndStructs()
+        {
+            DemoStruct s = new DemoStruct(12);
+            s.MyProperty = 12;
+            Console.WriteLine(s.MyProperty);
+        }
+
+        struct DemoStruct
+        {
+            public int MyProperty { get; set; }
+
+            public DemoStruct(int data) : this()
+            {
+                
+            }
+            
         }
     }
 }
