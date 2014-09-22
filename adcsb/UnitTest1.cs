@@ -9,6 +9,8 @@ namespace adcsb
         [TestMethod]
         public void TestMethod1()
         {
+            var p = new Persoon();
+            Assert.AreEqual(12, p.Leeftijd);
         }
     }
 }
