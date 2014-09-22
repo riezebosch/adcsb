@@ -50,6 +50,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="MyDisposable.cs" />
     <Compile Include="Persoon.cs" />
     <Compile Include="Persoon.Designer.cs">
       <DependentUpon>Persoon.cs</DependentUpon>
