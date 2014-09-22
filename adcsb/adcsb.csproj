@@ -36,6 +36,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -51,11 +54,13 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ClassMetEenAddMethode.cs" />
+    <Compile Include="LambdaDemo.cs" />
     <Compile Include="MyDisposable.cs" />
     <Compile Include="Persoon.cs" />
     <Compile Include="Persoon.Designer.cs">
       <DependentUpon>Persoon.cs</DependentUpon>
     </Compile>
+    <Compile Include="StringHelper.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

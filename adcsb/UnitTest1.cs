@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace adcsb
 {
@@ -118,6 +119,65 @@ namespace adcsb
                 
             }
             
+        }
+
+        [TestMethod]
+        public void ExtensionMethods()
+        {
+            var input = "Manuel Riezebosch";
+            
+            // Als helper method
+            var result1 = StringHelper.RemoveVowels(input);
+
+            // Als extension method
+            var result2 = input.RemoveVowels();
+
+            Assert.AreEqual("Mnl Rzbsch", result1);
+            Assert.AreEqual("Mnl Rzbsch", result2);
+        }
+
+        [TestMethod]
+        public void LinqExtensions()
+        {
+            var items = new List<int>
+            {
+                1, 2, 3, 4, 5, 6, 7, 8, 9
+            };
+
+            var collection = items
+                .Where(i => i != 5)
+                .Where(i => i > 0)
+                .Select(i => i % 2 == 0);
+
+            if (DateTime.Today.DayOfWeek == DayOfWeek.Monday)
+            {
+                collection = collection.Where(p => p);
+            }
+
+            foreach (var item in collection)
+            {
+                Console.WriteLine(item);   
+            }
+
+            items.Add(20);
+
+            Console.WriteLine(" ---" );
+
+            foreach (var item in collection)
+            {
+                Console.WriteLine(item);
+            }
+
+            Enumerable.Select(items, i => i % 2 == 0);
+        }
+
+        [TestMethod]
+        public void TestClonable()
+        {
+            string input = "Manuel";
+            var result = input.DeepClone();
+
+            Assert.AreEqual("Manuel", result);
         }
     }
 }
