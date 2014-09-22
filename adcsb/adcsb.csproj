@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="ClassMetEenAddMethode.cs" />
     <Compile Include="LambdaDemo.cs" />
+    <Compile Include="LinqExtensions.cs" />
     <Compile Include="MyDisposable.cs" />
     <Compile Include="Persoon.cs" />
     <Compile Include="Persoon.Designer.cs">
@@ -63,6 +64,8 @@
     <Compile Include="StringHelper.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ContraAndCoVariance.cs" />
+    <Compile Include="LinqDemo.cs" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

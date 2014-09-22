@@ -87,6 +87,13 @@ namespace adcsb
             items.Where((int i) => { return i % 2 == 0; });
             items.Where(i => { return i % 2 == 0; });
             items.Where(i => i % 2 == 0);
+
+            // Query syntax
+            var query = from i in items
+                        where i % 2 == 0
+                        select i;
+
+            
         }
 
         [TestMethod]
