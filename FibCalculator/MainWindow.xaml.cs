@@ -27,7 +27,9 @@ namespace FibCalculator
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Result.Content = Fib(int.Parse(Input.Text));
+            var input = int.Parse(Input.Text);
+            Task.Run(() => Fib(input))
+                .ContinueWith(t => Result.Content = t.Result, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
         private int Fib(int n)
@@ -39,5 +41,5 @@ namespace FibCalculator
 
             return Fib(n - 1) + Fib(n - 2);
         }
-    }
+      }
 }
