@@ -77,6 +77,7 @@
     <Compile Include="DeferredExecutionDemo.cs" />
     <Compile Include="UnitTest2.cs" />
     <Compile Include="DynamicDemo.cs" />
+    <Compile Include="OptionalAndNamedParameters.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

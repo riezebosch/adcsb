@@ -36,6 +36,7 @@ namespace adcsb
         }
 
         [TestMethod]
+        [Ignore]
         public void EntityFrameworkMetExpressions()
         {
             using (var context = new MyContext())

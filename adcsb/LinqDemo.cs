@@ -45,7 +45,7 @@ namespace adcsb
             }
 
             var gouda = plaatsen.First(p => p.Length == 5);
-            Assert.IsNull(gouda);
+            Assert.IsNotNull(gouda);
         }
 
         [TestMethod]
