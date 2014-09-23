@@ -9,7 +9,7 @@ namespace adcsb
     {
         public int Leeftijd { get; set; }
 
-        public void Dispose()
+        void IDisposable.Dispose()
         {
         }
     }

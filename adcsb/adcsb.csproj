@@ -41,6 +41,7 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Runtime.Serialization" />
@@ -75,6 +76,7 @@
     <Compile Include="LinqDemo.cs" />
     <Compile Include="DeferredExecutionDemo.cs" />
     <Compile Include="UnitTest2.cs" />
+    <Compile Include="DynamicDemo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
