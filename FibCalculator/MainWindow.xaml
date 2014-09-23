@@ -6,6 +6,8 @@
         <Button Click="Button_Click" Content="Button" HorizontalAlignment="Left" Margin="53,62,0,0" VerticalAlignment="Top" Width="75"/>
         <Label x:Name="Result" Content="Label" HorizontalAlignment="Left" Margin="53,94,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="Input" HorizontalAlignment="Left" Height="23" Margin="53,34,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+        <Button Content="Stop" Click="Button_Click_1" HorizontalAlignment="Left" Margin="133,62,0,0" VerticalAlignment="Top" Width="75"/>
+        <Label x:Name="ProgressLabel" Content="Label" HorizontalAlignment="Left" Margin="234,162,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>
