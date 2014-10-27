@@ -57,6 +57,7 @@
     <Compile Include="InitializersDemo.cs" />
     <Compile Include="AutoImplementedProperties.cs" />
     <Compile Include="ExtensionMethodsDemo.cs" />
+    <Compile Include="LambdaDemo.cs" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

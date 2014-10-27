@@ -27,7 +27,7 @@ namespace ADCSB
             int[] items = { 1, 4, 3, 6, 34, 563, 234, 56, 234, 45, 234, 23, 234, 234, 234, 234 };
             var query = items
                 .Where(i => i < 17)
-                .Select(i => i * 3);
+                .Select(i => (i * 3).ToString());
 
             foreach (var item in query)
             {
