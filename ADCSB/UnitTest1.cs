@@ -34,5 +34,11 @@ namespace ADCSB
                 Console.WriteLine(item);
             }
         }
+
+        [TestMethod]
+        public void DemoMetPartialClassesEnPartialMethods()
+        {
+            var target = new PartialDemo();
+        }
     }
 }
