@@ -66,6 +66,7 @@
     <Compile Include="ExtensionMethodsDemo.cs" />
     <Compile Include="LambdaDemo.cs" />
     <Compile Include="EntityFrameworkDemo.cs" />
+    <Compile Include="OptionalAndNamedParameters.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
