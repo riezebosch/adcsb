@@ -27,21 +27,7 @@ namespace WindowsFormsApplication1
         {
             int n = int.Parse(textBox1.Text);
 
-            var t = new Thread(new ParameterizedThreadStart(Run));
-            t.IsBackground = true;
-            t.Start(n);
-
-            
-        }
-
-        private void Run(object o)
-        {
-            int result = Fib((int)o);
-            if (label1.InvokeRequired)
-            {
-                label1.Invoke(new Action(() => label1.Text = result.ToString()));
-                
-            }
+            Task.Run(() => Fib(n)).ContinueWith(t => label1.Text = t.Result.ToString(), TaskScheduler.FromCurrentSynchronizationContext());
         }
 
         private int Fib(int n)
