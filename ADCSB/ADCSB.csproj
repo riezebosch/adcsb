@@ -41,6 +41,7 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
   </ItemGroup>
@@ -67,6 +68,7 @@
     <Compile Include="LambdaDemo.cs" />
     <Compile Include="EntityFrameworkDemo.cs" />
     <Compile Include="OptionalAndNamedParameters.cs" />
+    <Compile Include="DynamicDemo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
