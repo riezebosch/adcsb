@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -19,7 +20,38 @@ namespace WindowsFormsApplication1
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            MessageBox.Show("Test");
+           
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            int n = int.Parse(textBox1.Text);
+
+            var t = new Thread(new ParameterizedThreadStart(Run));
+            t.IsBackground = true;
+            t.Start(n);
+
+            
+        }
+
+        private void Run(object o)
+        {
+            int result = Fib((int)o);
+            if (label1.InvokeRequired)
+            {
+                label1.Invoke(new Action(() => label1.Text = result.ToString()));
+                
+            }
+        }
+
+        private int Fib(int n)
+        {
+            if (n <= 1)
+            {
+                return n;
+            }
+
+            return Fib(n - 1) + Fib(n - 2);
         }
     }
 }
