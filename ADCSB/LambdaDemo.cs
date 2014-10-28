@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ADCSB
 {
@@ -23,7 +24,7 @@ namespace ADCSB
 
         private void Print(int parameter)
         {
-            
+
         }
 
         [TestMethod]
@@ -49,7 +50,7 @@ namespace ADCSB
             var c = new ClassMetEventsEnDelegatesErop();
             c.Load1 += Console.WriteLine;
             c.Load2 += Console.WriteLine;
-            
+
             // Nu komt het grote verschil:
             c.Load1(12);
 
@@ -128,18 +129,17 @@ namespace ADCSB
             return item % 2 == 0;
         }
 
-        private static int[] Where(int[] items, Func<int, bool> predicate)
+        private static IEnumerable<int> Where(int[] items, Func<int, bool> predicate)
         {
-            var result = new List<int>();
             foreach (var item in items)
             {
                 if (predicate(item))
                 {
-                    result.Add(item);
+                    yield return item;
                 }
             }
 
-            return result.ToArray();
+            yield return 3;
         }
 
         [TestMethod]
@@ -147,7 +147,7 @@ namespace ADCSB
         {
             int getal = 0;
             Action a = () => Console.WriteLine(getal);
-            
+
             getal = 3;
             KanIkBijEenCapturedVariable(a);
         }
@@ -155,6 +155,110 @@ namespace ADCSB
         private static void KanIkBijEenCapturedVariable(Action a)
         {
             a();
+        }
+
+        [TestMethod]
+        public void FuncMetParameters()
+        {
+            int[] items = { 0, 1, 1, 2, 3, 5, 8, 13, 21, 34 };
+            var query = items.Select((i, index) => string.Format("{0} [{1}]", i, index));
+
+            Console.WriteLine(string.Join(Environment.NewLine, query));
+        }
+
+        [TestMethod]
+        public void DeferredExecution()
+        {
+            List<Person> band = new List<Person> {
+                new Person{ Name="John"},
+                new Person{ Name="Paul"},
+                new Person{ Name="George"},
+                new Person{ Name="Ringo"}
+            };
+
+            string filter = "e";
+
+            var selection = band.Where(person => person.Name.Contains(filter));
+
+            filter = "o";
+
+            selection =
+                selection.Where(person => person.Name.Contains(filter));
+
+            Console.WriteLine("Found {0} persons.", selection.Count());
+        }
+
+        class A
+        {
+            public string Y { get; set; }
+            public List<B> B { get; set; }
+        }
+
+        class B
+        {
+            public string X { get; set; }
+        }
+
+        [TestMethod]
+        public void FromInEenFrom()
+        {
+            var items = new List<A>
+            {
+                new A
+                {
+                    B = new List<B>
+                    {
+                        new B { X = "a"},
+                        new B { X = "b"}
+                    }, Y = "A1"
+                    },
+                    new A{
+                        B = new List<B>
+                        {
+                            new B { X = "c"},
+                            new B { X = "d"}
+                    }, Y = " A2"
+                }
+            };
+
+            var query = from a in items
+                        from b in a.B
+                        select a.Y + b.X;
+
+            // inderdaad, hier komt a, b, c, d
+            foreach (var item in query)
+            {
+                Console.WriteLine(item);
+            }
+        }
+
+        [TestMethod]
+        public void FromInFromZonderRelatie()
+        {
+            int[] getallen = { 1, 2, 3, 4, 5 };
+            char[] karakters = { 'a', 'b', 'c', 'd' };
+
+            var query = from g in getallen
+                        from k in karakters
+                        select g + k.ToString();
+
+            foreach (var item in query)
+            {
+                Console.WriteLine(item);
+            }
+        }
+
+        [TestMethod]
+        public void OrderByEnNogEenKeer()
+        {
+            List<Person> band = new List<Person> {
+                new Person{ Name="John"},
+                new Person{ Name="Paul"},
+                new Person{ Name="George"},
+                new Person{ Name="Ringo"}
+            };
+
+            var query = band.OrderBy(p => p.Name).ThenBy(p => p.Name.Length);
         }
     }
 }
