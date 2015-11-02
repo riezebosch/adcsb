@@ -8,6 +8,10 @@ namespace ADCSB
 {
     partial class Person
     {
+        public Person()
+        {
+        }
+
         public Person(int age)
         {
             Age = age;
@@ -17,10 +21,6 @@ namespace ADCSB
         public int Age { get; set; }
         public string Name { get; internal set; }
 
-        public void Print()
-        {
-
-        }
 
         partial void SomethingYouCanImplementInTheOtherPartial(int sum)
         {

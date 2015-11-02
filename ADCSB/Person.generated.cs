@@ -11,10 +11,6 @@ namespace ADCSB
 {
     partial class Person
     {
-        public Person()
-        {
-        }
-
         partial void SomethingYouCanImplementInTheOtherPartial(int sum);
 
         public void GeneratedMethod()

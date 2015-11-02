@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 
 namespace ADCSB
 {
@@ -41,6 +42,34 @@ namespace ADCSB
         private void Print(Person p)
         {
             Console.WriteLine($"Person age = {p.Age}.");
+        }
+
+        [TestMethod]
+        public void DemoVanCollectionInitializers()
+        {
+            var list = new List<Person>
+            {
+                new Person { Name = "Pete" },
+                new Person { Name = "John" }
+            };
+
+            var dict = new Dictionary<string, Person>
+            {
+                { "asdf", new Person { Name = "Pete" } },
+                { "zasd", new Person { Name = "John" } }
+            };
+
+            int[] numbers1 = { 1, 2, 3, 4, 5 };
+            var numbers2 = new[] { 1, 2, 3, 4, 5 };
+
+            int[] numbers3 = new int[5];
+            numbers3[0] = 1;
+            numbers3[1] = 2;
+            numbers3[2] = 3;
+            numbers3[3] = 4;
+            numbers3[4] = 5;
+
+            //var numbers4 = { 1, 2, 3, 4, 5 };
         }
     }
 }
