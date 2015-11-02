@@ -118,5 +118,27 @@ namespace ADCSB
             Person p8 = new Person { Age = 31, Name = "John" };
             Assert.AreNotEqual(p6, p7);
         }
+
+        struct S
+        {
+            public string Name { get; set; }
+
+            public S(string name) 
+                // Blijkbaar is dit gefixt in C# 6 want vroeger moest je zelf de call naar de default constructor doen
+                //: this() 
+            {
+                Name = name;
+            }
+
+        }
+
+        [TestMethod]
+        public void DefiniteAssignmentOnStructs()
+        {
+            S s1 = new S();
+            s1.Name = "John";
+            Console.WriteLine(s1.Name);
+            
+        }
     }
 }
