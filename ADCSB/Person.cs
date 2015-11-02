@@ -8,7 +8,14 @@ namespace ADCSB
 {
     partial class Person
     {
+        public Person(int age)
+        {
+            Age = age;
+        }
+
+        public Address Address { get; internal set; }
         public int Age { get; set; }
+        public string Name { get; internal set; }
 
         public void Print()
         {
