@@ -11,6 +11,8 @@ namespace ADCSB
 {
     partial class Person
     {
+        public List<string> Instruments { get; internal set; }
+
         partial void SomethingYouCanImplementInTheOtherPartial(int sum);
 
         public void GeneratedMethod()
