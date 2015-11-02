@@ -40,10 +40,5 @@ namespace ADCSB
         }
     }
 
-    enum Gender
-    {
-        Unknown,
-        Male,
-        Female
-    }
+    
 }

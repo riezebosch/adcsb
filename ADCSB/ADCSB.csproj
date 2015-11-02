@@ -52,8 +52,12 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Address.cs" />
+    <Compile Include="ClonableDisposableExtensions.cs" />
+    <Compile Include="Gender.cs" />
+    <Compile Include="GenderExtensions.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="Person.generated.cs" />
+    <Compile Include="PersonHelper.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

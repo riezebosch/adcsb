@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ADCSB
 {
@@ -138,7 +139,60 @@ namespace ADCSB
             S s1 = new S();
             s1.Name = "John";
             Console.WriteLine(s1.Name);
-            
+        }
+
+        [TestMethod]
+        public void DemoVanExtensionMethods()
+        {
+            var person = new Person { Name = "Paul" };
+            PersonHelper.Print(person);
+
+            person.Print();
+        }
+
+        [TestMethod]
+        public void DemoVanExtensionMethodsOpEenInterface()
+        {
+            var list = new List<Person>
+            {
+                new Person { Name = "John" },
+                new Person { Name = "Luc" }
+            };
+
+
+            var result = list.Where(s => s.Name.StartsWith("J"));
+            Enumerable.Where(list, s => s.Name.StartsWith("J"));
+        }
+
+        [TestMethod]
+        public void DemoVanExtensionMethodOpEenEnum()
+        {
+            var g = Gender.Male;
+
+            Console.WriteLine(g.Description());
+            Console.WriteLine(GenderExtensions.Description(g));
+        }
+
+        class MyClass : ICloneable, IDisposable
+        {
+            public object Clone()
+            {
+                return new MyClass();
+            }
+
+            public void Dispose()
+            {
+            }
+        }
+
+        [TestMethod]
+        public void DemoVanExtensionMethodsMetGenerics()
+        {
+            var m = new MyClass();
+            m.Iets();
+
+            var p = new Person();
+            //p.Iets();
         }
     }
 }
