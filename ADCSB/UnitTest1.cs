@@ -9,6 +9,8 @@ namespace ADCSB
         [TestMethod]
         public void TestMethod1()
         {
+            var p = new Person();
+            p.GeneratedMethod();
         }
     }
 }
