@@ -124,9 +124,9 @@ namespace ADCSB
         {
             public string Name { get; set; }
 
-            public S(string name) 
-                // Blijkbaar is dit gefixt in C# 6 want vroeger moest je zelf de call naar de default constructor doen
-                //: this() 
+            public S(string name)
+            // Blijkbaar is dit gefixt in C# 6 want vroeger moest je zelf de call naar de default constructor doen
+            //: this() 
             {
                 Name = name;
             }
@@ -193,6 +193,81 @@ namespace ADCSB
 
             var p = new Person();
             //p.Iets();
+        }
+
+        [TestMethod]
+        public void DemoVanLambdasEnWaaromZeZoMooiZijn()
+        {
+            var list = new List<Person>
+            {
+                new Person { Name = "Peter" },
+                new Person { Name = "John" },
+                new Person { Name = "Luc" },
+                new Person { Name = "Henkie" }
+            };
+
+       
+            // C# 1.0, alles in eigen methodes
+            var result1 = list.OrderBy(SelectName);
+
+            // C# 2.0, anonymous methods
+            var result2 = list.OrderBy(delegate (Person p) 
+            {
+                return p.Name;
+            });
+
+            // C# 3.0, lambda's
+            var result3 = list.OrderBy((Person p) => 
+            {
+                return p.Name;
+            });
+            var result4 = list.OrderBy(p => p.Name);
+
+            var result5 = from p in list
+                          orderby p.Name, p.Age
+                          select p;
+
+            IetsMetLambdas((p, i) => p.Age * i >= 100);
+
+        }
+
+        private string SelectName(Person p)
+        {
+            return p.Name;
+        }
+
+        private static void IetsMetLambdas(Func<Person, int, bool> f)
+        {
+
+        }
+
+        [TestMethod]
+        public void DemoVanLambdasMetCapturedOuterVariables()
+        {
+            var list = new List<Person>
+            {
+                new Person { Name = "Peter" },
+                new Person { Name = "John" },
+                new Person { Name = "Luc" },
+                new Person { Name = "Henkie" }
+            };
+
+            string name = "John";
+
+            var result1 = list.Where(p => p.Name == name);
+
+            var wrapper = new WrapperOmMethode();
+            wrapper.name = "John";
+            var result2 = list.Where(wrapper.SelectFromName);
+        }
+
+        class WrapperOmMethode
+        {
+            public string name;
+            public bool SelectFromName(Person p)
+            {
+                return p.Name == name;
+            }
         }
     }
 }
