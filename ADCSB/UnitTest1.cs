@@ -71,5 +71,52 @@ namespace ADCSB
 
             //var numbers4 = { 1, 2, 3, 4, 5 };
         }
+
+        [TestMethod]
+        public void DemoVanAnonymousTypes()
+        {
+            var p = new
+            {
+                Name = "Pete",
+                Age = 31,
+                Address = new
+                {
+                    Street = "Smalle Zijde",
+                    ZipCode = "3904TG"
+                }
+            };
+
+            Console.WriteLine(p.Name);
+
+            object o = GeefEenAnonymousTypeTerug();
+            Console.WriteLine(o.GetType().GetProperty("Age").GetValue(o));
+            Console.WriteLine(o.GetType().FullName);
+        }
+
+        private object GeefEenAnonymousTypeTerug()
+        {
+            return new { Age = 45 };
+        }
+
+        [TestMethod]
+        public void GenererenVanAnonymousTypes()
+        {
+            var p1 = new { Age = 23, Name = "Pete" };
+            var p2 = new { Age = 31, Name = "John" };
+            var p3 = new { Name = "Paul", Age = 12 };
+            var p4 = new { Age = 31m, Name = "John" };
+            var p5 = new { Age = 23, Name = "Pete" };
+
+            Assert.AreEqual(p1.GetType(), p2.GetType());
+            Assert.AreNotEqual(p1.GetType(), p3.GetType());
+            Assert.AreNotEqual(p1.GetType(), p4.GetType());
+
+            Assert.AreEqual(p1, p5);
+
+            var p6 = new Person { Age = 31, Name = "John" };
+            var p7 = new Person { Age = 31, Name = "John" };
+            Person p8 = new Person { Age = 31, Name = "John" };
+            Assert.AreNotEqual(p6, p7);
+        }
     }
 }
