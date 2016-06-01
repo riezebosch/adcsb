@@ -30,12 +30,7 @@ namespace ADCSB
         {
             get
             {
-                if (_aankopen == null)
-                {
-                    _aankopen = new List<Aankoop>();
-                }
-
-                return _aankopen;
+                return _aankopen ?? (_aankopen = new List<Aankoop>());
             }
         }
     }
