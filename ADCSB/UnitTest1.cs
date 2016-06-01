@@ -273,6 +273,27 @@ namespace ADCSB
             int[] items = { 1, 2, 3, 4 };
             items.Sum().ShouldBe(10);
         }
+
+        [TestMethod]
+        public void ExtensionMethodMetMeerdereInterfacesDemo()
+        {
+            var p = new Polymorph();
+            p.TwistedLogic();
+        }
+
+        private class Polymorph : IFirst, ISecond
+        {
+            public void Do()
+            {
+            }
+
+            public void Help()
+            {
+            }
+        }
+
+        
+
     }
 
     static class MyExtensionMethods
@@ -306,7 +327,23 @@ namespace ADCSB
 
         public static void Add(this UnitTest1.SomethingThatDoesNotHaveAdd item, int value)
         {
-
         }
+
+        public static void TwistedLogic<T>(this T item)
+            where T : IFirst, ISecond
+        {
+            item.Do();
+            item.Help();
+        }
+    }
+
+    interface IFirst
+    {
+        void Do();
+    }
+
+    interface ISecond
+    {
+        void Help();
     }
 }
