@@ -44,7 +44,7 @@ namespace ADCSB
             };
 
             int[] getallen1 = { 1, 2, 3, 4, 5 };
-            var getallen2 = new []{ 1, 2, 3, 4, 5 };
+            var getallen2 = new[] { 1, 2, 3, 4, 5 };
             var getallen3 = new object[] { 1, 2, 3, 4, 5, "getal" };
         }
 
@@ -127,6 +127,81 @@ namespace ADCSB
             var p5 = new Persoon { GeboorteDatum = new DateTime(1982, 4, 5) };
             var p6 = new Persoon { GeboorteDatum = new DateTime(1982, 4, 5) };
             p6.ShouldNotBe(p5);
+        }
+
+        [TestMethod]
+        public void AutoImplementsProperties()
+        {
+            var ap = new AutoImplmemtedPropertiesDemo();
+
+            ap.setZoDoetJavaHet(13);
+            Console.WriteLine(ap.getZoDoetJavaHet());
+
+            ap.ZoKwamDotNetErmee = 13;
+            Console.WriteLine(ap.ZoKwamDotNetErmee);
+
+            ap.ReadOnly3(16);
+            ap.ReadOnly4(16);
+        }
+
+        class AutoImplmemtedPropertiesDemo
+        {
+            private int _zoDoetJavaHet;
+            public void setZoDoetJavaHet(int iets)
+            {
+                _zoDoetJavaHet = iets;
+            }
+
+            public int getZoDoetJavaHet()
+            {
+                return _zoDoetJavaHet;
+            }
+
+
+            private int _zoKwamDotNetErmee;
+
+            public int ZoKwamDotNetErmee
+            {
+                get { return _zoKwamDotNetErmee; }
+                set { _zoKwamDotNetErmee = value; }
+            }
+
+            public int DitWasEenVerbeteringOmdatHetGewoonTypewerkScheelt { get; set; }
+
+            public int BeetjeReadOnlyInElkGevalVanBuitenaf { get; private set; }
+
+            public AutoImplmemtedPropertiesDemo()
+            {
+                // Read-only properties zetten van binnenuit, bijvoorbeeld
+                // in de constructor
+                BeetjeReadOnlyInElkGevalVanBuitenaf = 13;
+            }
+
+            public int DeCSharp6ReadOnlyOplossing { get; } = 13;
+
+            public void OverschrijfHetReadonlyPropertyVanCSharp6(int waarde)
+            {
+                // Deze kan ik van binnenuit wel overschrijven,
+                // aangezien de setter slechts 'private' is.
+                BeetjeReadOnlyInElkGevalVanBuitenaf = waarde;
+
+                // Deze mag ik niet overschrijven, de compiler
+                // herkent dat het propertie read-only is!
+                //DeCSharp6ReadOnlyOplossing = waarde;
+            }
+
+            public int ReadOnly1 { get { return 16; } }
+
+
+            public int ReadOnly2 => 16;
+
+            public int ReadOnly3(int input)
+            {
+                return 16 * input;
+            }
+
+            public int ReadOnly4(int input) => 16 * input;
+
         }
     }
 }
