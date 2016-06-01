@@ -25,13 +25,8 @@ namespace ADCSB
             Console.WriteLine($"Hey, deze partial heeft ook een body. De waarde die was meegegeven is: {dt}");
         }
 
-        private IList<Aankoop> _aankopen;
-        public IList<Aankoop> Aankopen
-        {
-            get
-            {
-                return _aankopen ?? (_aankopen = new List<Aankoop>());
-            }
-        }
+
+        public IList<Aankoop> Aankopen { get; } = new List<Aankoop>();
+        
     }
 }
