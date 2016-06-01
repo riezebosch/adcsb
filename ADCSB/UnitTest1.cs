@@ -201,7 +201,34 @@ namespace ADCSB
             }
 
             public int ReadOnly4(int input) => 16 * input;
+        }
 
+        [TestMethod]
+        public void AutoImplementedPropertiesMetStructs()
+        {
+            MyStruct s1 = new MyStruct();
+            s1.X = 5;
+            s1.MyProperty = 13;
+
+            Console.WriteLine(s1.X);
+            Console.WriteLine(s1.Y);
+
+            MyStruct s2 = s1;
+            s2.X = 13;
+
+            Console.WriteLine(s1.X);
+            Console.WriteLine(s2.X);
+
+           
+        }
+
+        struct MyStruct
+        {
+            public int X;
+
+            public int Y;
+
+            public int MyProperty { get; set; }
         }
     }
 }
