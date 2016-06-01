@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using System.Collections;
 
 namespace ADCSB
 {
@@ -62,6 +63,24 @@ namespace ADCSB
             foreach (var a in p.Aankopen)
             {
                 Console.WriteLine(a.Omschrijving);
+            }
+        }
+
+        [TestMethod]
+        public void CollectionInitializerOpEigenType()
+        {
+            var q = new DemoType { 0, 1, 2, 3, 4, 5, 6 };
+        }
+
+        private class DemoType : IEnumerable
+        {
+            public IEnumerator GetEnumerator()
+            {
+                return null;
+            }
+
+            public void Add(int item)
+            {
             }
         }
     }
