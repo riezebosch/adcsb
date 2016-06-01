@@ -11,6 +11,8 @@ namespace ADCSB
         public Persoon()
         {
             OnGeboorteDatumChangedMetEenEvent += (sender, args) => Console.WriteLine(args);
+
+            
         }
 
         public int BerekenLeeftijd()
@@ -21,6 +23,20 @@ namespace ADCSB
         partial void OnGeboorteDatumChangedMetPartialMethod(DateTime dt)
         {
             Console.WriteLine($"Hey, deze partial heeft ook een body. De waarde die was meegegeven is: {dt}");
+        }
+
+        private IList<Aankoop> _aankopen;
+        public IList<Aankoop> Aankopen
+        {
+            get
+            {
+                if (_aankopen == null)
+                {
+                    _aankopen = new List<Aankoop>();
+                }
+
+                return _aankopen;
+            }
         }
     }
 }

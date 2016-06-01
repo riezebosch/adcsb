@@ -45,5 +45,24 @@ namespace ADCSB
             var getallen2 = new []{ 1, 2, 3, 4, 5 };
             var getallen3 = new object[] { 1, 2, 3, 4, 5, "getal" };
         }
+
+        [TestMethod]
+        public void ObjectInitializerMetCollectionDemo()
+        {
+            var p = new Persoon
+            {
+                GeboorteDatum = new DateTime(1982, 4, 5),
+                //Aankopen = new List<Aankoop>
+                //{
+                //    new Aankoop(),
+                //    new Aankoop()
+                //}
+            };
+
+            foreach (var a in p.Aankopen)
+            {
+                Console.WriteLine(a.Omschrijving);
+            }
+        }
     }
 }
