@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Collections;
+using Shouldly;
 
 namespace ADCSB
 {
@@ -98,6 +99,34 @@ namespace ADCSB
         {
             var p = new Persoon { GeboorteDatum = new DateTime(1982, 4, 5) };
             return new { Leeftijd = 34, p.GeboorteDatum };
+        }
+
+        [TestMethod]
+        public void AnonymousTypeGeneratedDemo()
+        {
+            var p1 = new { Leeftijd = 34, Naam = "Piet" };
+            var p2 = new { Leeftijd = 23, Naam = "Klaas" };
+
+            p1.GetType().ShouldBeSameAs(p2.GetType());
+
+            var p3 = new { Naam = "Piet", Leeftijd = 34 };
+            p1.GetType().ShouldNotBeSameAs(p3.GetType());
+
+            var p4 = new { Leeftijd = 34, Naam = "Piet" };
+            p1.ShouldNotBe(p2);
+
+            //  Kan niet, omdat p1 en p3 voor de compiler
+            //  al twee verschillende types zijn!!
+            //p1.ShouldNotBe(p3);
+
+            // Deze is bijzonder, blijkbaar wordt bij anonymous types
+            // de Equals (en ook de GetHashCode) door de compiler overriden.
+            p1.ShouldBe(p4);
+
+            // Want dat gedrag is helemaal niet normaal bij classes!
+            var p5 = new Persoon { GeboorteDatum = new DateTime(1982, 4, 5) };
+            var p6 = new Persoon { GeboorteDatum = new DateTime(1982, 4, 5) };
+            p6.ShouldNotBe(p5);
         }
     }
 }
