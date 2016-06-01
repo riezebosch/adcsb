@@ -83,5 +83,21 @@ namespace ADCSB
             {
             }
         }
+
+        [TestMethod]
+        public void AnonymousTypesDemo()
+        {
+            var a = new { GeboorteDatum = new DateTime(1982, 4, 5) };
+            Console.WriteLine(a.GeboorteDatum);
+
+            var p = IetsMetEenAnymousType();
+            Console.WriteLine(p.ToString());
+        }
+
+        public static object IetsMetEenAnymousType()
+        {
+            var p = new Persoon { GeboorteDatum = new DateTime(1982, 4, 5) };
+            return new { Leeftijd = 34, p.GeboorteDatum };
+        }
     }
 }
