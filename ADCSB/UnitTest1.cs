@@ -141,7 +141,7 @@ namespace ADCSB
             Console.WriteLine(ap.ZoKwamDotNetErmee);
 
             ap.ReadOnly3(16);
-            ap.ReadOnly4(16);
+            ap.ReadOnly4ExpressionBodiesMethod(16);
         }
 
         class AutoImplmemtedPropertiesDemo
@@ -193,14 +193,14 @@ namespace ADCSB
             public int ReadOnly1 { get { return 16; } }
 
 
-            public int ReadOnly2 => 16;
+            public int ReadOnly2ExpressionBodiesProperty => 16;
 
             public int ReadOnly3(int input)
             {
                 return 16 * input;
             }
 
-            public int ReadOnly4(int input) => 16 * input;
+            public int ReadOnly4ExpressionBodiesMethod(int input) => 16 * input;
         }
 
         [TestMethod]
@@ -230,5 +230,6 @@ namespace ADCSB
 
             public int MyProperty { get; set; }
         }
+
     }
 }
