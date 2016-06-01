@@ -7,8 +7,12 @@ namespace ADCSB
     public class UnitTest1
     {
         [TestMethod]
-        public void TestMethod1()
+        public void PartialClassEnPartialMethodDemo()
         {
+            var p = new Persoon();
+            p.GeboorteDatum = new DateTime(1982, 4, 5);
+
+            Assert.AreEqual(34, p.BerekenLeeftijd());
         }
     }
 }
