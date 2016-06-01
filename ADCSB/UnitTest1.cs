@@ -3,6 +3,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Collections;
 using Shouldly;
+using System.Text;
+using System.Linq;
 
 namespace ADCSB
 {
@@ -231,5 +233,80 @@ namespace ADCSB
             public int MyProperty { get; set; }
         }
 
+        [TestMethod]
+        public void ExtensionMethodDemo()
+        {
+            var input = "Hottentottententententoonstelling";
+            var result1 = MyExtensionMethods.Reverse(input);
+            var result2 = input.Reverse();
+
+            result1.ShouldBe("gnilletsnootnetnetnetnettotnettoH");
+        }
+
+        [TestMethod]
+        public void ExtensionMethodMetCollectionsDemo()
+        {
+            int[] items = { 1, 2, 3, 4 };
+            var result = items.Reverse(); // <-- hier staat eigenlijk: MyExtensionMethods.Reverse(items)
+
+            result.ShouldBe(new int[] { 4, 3, 2, 1 });
+        }
+
+        [TestMethod]
+        public void CollectionInitializerMetAddInExtensionMethod()
+        {
+            // Op verzoek van Jeroen
+            var p = new SomethingThatDoesNotHaveAdd { 1, 2, 3, 4, 5 };
+        }
+
+        internal class SomethingThatDoesNotHaveAdd : IEnumerable
+        {
+            public IEnumerator GetEnumerator()
+            {
+                return null;
+            }
+        }
+
+        [TestMethod]
+        public void LinqExtensionMethodsDemo()
+        {
+            int[] items = { 1, 2, 3, 4 };
+            items.Sum().ShouldBe(10);
+        }
+    }
+
+    static class MyExtensionMethods
+    {
+        public static string Reverse(this string input)
+        {
+            var sb = new StringBuilder();
+            int i = input.Length;
+
+            while (i-- > 0)
+            {
+                sb.Append(input[i]);
+            }
+
+            return sb.ToString();
+        }
+
+        public static IEnumerable<T> Reverse<T>(this IEnumerable<T> items)
+        {
+            var stack = new Stack<T>();
+            foreach (var item in items)
+            {
+                stack.Push(item);
+            }
+
+            while (stack.Count > 0)
+            {
+                yield return stack.Pop();
+            }
+        }
+
+        public static void Add(this UnitTest1.SomethingThatDoesNotHaveAdd item, int value)
+        {
+
+        }
     }
 }
