@@ -168,5 +168,46 @@ namespace ADCSB
                 }
             }
         }
+
+        delegate TResult GeenVariance<TIn, TResult>(TIn input);
+        delegate TResult ContraVariance<in TIn, TResult>(TIn input);
+        delegate TResult CoVariance<TIn, out TResult>(TIn input);
+        delegate TResult CoAndContraVariance<in TIn, out TResult>(TIn input);
+
+        // Dit kan dus niet:
+        //delegate TResult demo5<in TResult>();
+        //delegate void demo6<out TIn>(TIn input);
+
+        [TestMethod]
+        public void CoAndContraVarianceDemo()
+        {
+            GeenVariance<Persoon, Persoon> d1 = ClonePersoon;
+            //GeenVariance<Student, Persoon> d2 = d1;
+
+            // Met contra variance (in) kan dit:
+            ContraVariance<Persoon, Persoon> d2 = ClonePersoon;
+            ContraVariance<Student, Persoon> d3 = d2;
+
+
+            // Met covariance (out) kan dit:
+            CoVariance<Student, Student> d4 = CloneStudent;
+            CoVariance<Student, Persoon> d5 = d4;
+
+        }
+
+        private Persoon ClonePersoon(Persoon input)
+        {
+            return new Persoon { GeboorteDatum = input.GeboorteDatum };
+        }
+
+        private Student CloneStudent(Student input)
+        {
+            return new Student { GeboorteDatum = input.GeboorteDatum, Nummer = input.Nummer };
+        }
+
+        private class Student : Persoon
+        {
+            public int Nummer { get; set; }
+        }
     }
 }
