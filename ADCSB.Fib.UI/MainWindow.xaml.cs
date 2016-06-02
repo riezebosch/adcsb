@@ -29,7 +29,11 @@ namespace ADCSB.Fib.UI
         private async void button_Click(object sender, RoutedEventArgs e)
         {
             int input = int.Parse(textBox.Text);
-            label.Content = await CalculateFib(input);
+
+            var fib = CalculateFib(input);
+            await Task.WhenAny(fib, Task.Delay(TimeSpan.FromSeconds(30)));
+
+            label.Content = fib.IsCompleted ? fib.Result.ToString() : "timeout";
         }
 
         private Task<int> CalculateFib(int n)
