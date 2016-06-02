@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -28,29 +29,9 @@ namespace ADCSB.Fib.UI
 
         private async void button_Click(object sender, RoutedEventArgs e)
         {
-            int input = int.Parse(textBox.Text);
-
-            var source = new CancellationTokenSource();
-            var fib = CalculateFib(input, source.Token);
-            var timeout = Task
-                .Delay(TimeSpan.FromSeconds(10))
-                .ContinueWith(t => source.Cancel());
-
-            await Task.WhenAny(fib, timeout);
-
-            try
-            {
-                label.Content = fib.Result;
-            }
-            catch (AggregateException ex)
-            {
-                label.Content = string.Join(", ", ex.InnerExceptions.Select(x => x.Message));
-            }
-        }
-
-        private Task<int> CalculateFib(int n, CancellationToken token)
-        {
-            return Task.Run(() => FibHelpers.Fib(n, token));
+            var p = Process.Start("notepad");
+            p.EnableRaisingEvents = true;
+            p.Exited += (o, x) => label.Content = "notepad is weer gesloten";
         }
     }
 }

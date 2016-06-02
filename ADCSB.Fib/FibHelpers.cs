@@ -5,7 +5,7 @@ namespace ADCSB.Fib
 {
     public class FibHelpers
     {
-        public static int Fib(int n, CancellationToken? token)
+        public static int Fib(int n, CancellationToken? token = null)
         {
             if (n < 0)
             {

@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ADCSB
 {
@@ -158,7 +159,7 @@ namespace ADCSB
         }
 
         [TestMethod]
-        public void DemoVanExpressionTreesMetEntityFramework()
+        public async Task DemoVanExpressionTreesMetEntityFramework()
         {
             using (var context = new DemoContext())
             {
@@ -166,6 +167,9 @@ namespace ADCSB
                 {
                     Console.WriteLine(p.Name);
                 }
+
+                context.People.Add(new Person { Name = "Pietje" });
+                await context.SaveChangesAsync();
             }
         }
 
