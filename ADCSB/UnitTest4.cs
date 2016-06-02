@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using Shouldly;
+using System.Linq;
 
 namespace ADCSB
 {
@@ -34,6 +36,11 @@ namespace ADCSB
                 "Amsterdam", "Arnhem", "Amersfoort",
                 "Assen", "Amstelveen", "Alphen"
             };
+
+            var opdracht3 = from p in plaatsnamen
+                            select p.Last();
+        
+            opdracht3.ShouldBe(new[] { 'n' });
         }
     }
 }
