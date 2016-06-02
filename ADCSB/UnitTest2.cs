@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Linq;
 
 namespace ADCSB
 {
@@ -128,6 +130,42 @@ namespace ADCSB
             foreach (var action in actions)
             {
                 action();
+            }
+        }
+
+        [TestMethod]
+        public void WatIsNuEigenlijkHetVerschilTussenEenLambdaEnEenExpressionTree()
+        {
+            int i = 3;
+            DoLambda(() => Console.WriteLine(i * 3));
+
+            DoExpressionTree(() => Console.WriteLine(i * 3));
+        }
+
+        private void DoExpressionTree(Expression<Action> p)
+        {
+            var compiled = p.Compile();
+            compiled();
+
+            Console.WriteLine(compiled);
+            Console.WriteLine(p);
+        }
+
+        private void DoLambda(Action p)
+        {
+            p();
+            Console.WriteLine(p);
+        }
+
+        [TestMethod]
+        public void DemoVanExpressionTreesMetEntityFramework()
+        {
+            using (var context = new DemoContext())
+            {
+                foreach (var p in context.People.Where(p => p.Name == "Pietje"))
+                {
+                    Console.WriteLine(p.Name);
+                }
             }
         }
     }
