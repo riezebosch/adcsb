@@ -30,19 +30,14 @@ namespace ADCSB.Fib.UI
         {
             int input = int.Parse(textBox.Text);
 
-            var t = new Thread(CalculateFib)
-            {
-                IsBackground = true
-            };
-            t.Start(input);
-
-
+            CalculateFib(input)
+                .ContinueWith(t => label.Content = t.Result, 
+                TaskScheduler.FromCurrentSynchronizationContext());
         }
 
-        private void CalculateFib(object n)
+        private Task<int> CalculateFib(int n)
         {
-            var result = FibHelpers.Fib((int)n);
-            Dispatcher.Invoke(() => label.Content = result);
+            return Task.Run(() => FibHelpers.Fib(n));
         }
     }
 }
