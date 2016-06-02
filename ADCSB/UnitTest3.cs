@@ -87,7 +87,7 @@ namespace ADCSB
             {
                 Console.WriteLine(item);
             }
-        
+
         }
 
         private IEnumerable<int> Fib()
@@ -112,6 +112,38 @@ namespace ADCSB
             var query = items.OnzeEigenWhere(i => i > 5);
 
             query.ShouldBe(new int[] { 6, 7, 8, 9 });
+        }
+
+        [TestMethod]
+        public void FromInFrom()
+        {
+            var p1 = new Persoon { Naam = "Pietje" };
+            p1.Aankopen.Add(new Aankoop { Omschrijving = "PS3" });
+
+            var p2 = new Persoon { Naam = "Henk" };
+            p2.Aankopen.Add(new Aankoop { Omschrijving = "Weber" });
+
+            var people = new List<Persoon> { p1, p2 };
+
+            var query = from p in people
+                        from a in p.Aankopen
+                        where a.Omschrijving == "PS3"
+                        select p.Naam;
+
+            Console.WriteLine(string.Join(", ", query));
+        }
+
+        [TestMethod]
+        public void FromInFromZonderRelatie()
+        {
+            int[] getallen = { 1, 2, 3, 4, 5 };
+            char[] karakters = { 'a', 'b', 'c' };
+
+            var query = from a in getallen
+                        from b in karakters
+                        select $"{a}, {b}";
+
+            Console.WriteLine(string.Join(Environment.NewLine, query));
         }
     }
 

@@ -28,6 +28,8 @@ namespace ADCSB
             }
         }
 
+        public string Naam { get; internal set; }
+
         partial void OnGeboorteDatumChangedMetPartialMethod(DateTime value);
     
     }
