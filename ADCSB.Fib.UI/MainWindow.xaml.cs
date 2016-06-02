@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -28,7 +29,20 @@ namespace ADCSB.Fib.UI
         private void button_Click(object sender, RoutedEventArgs e)
         {
             int input = int.Parse(textBox.Text);
-            label.Content = FibHelpers.Fib(input);
+
+            var t = new Thread(CalculateFib)
+            {
+                IsBackground = true
+            };
+            t.Start(input);
+
+
+        }
+
+        private void CalculateFib(object n)
+        {
+            var result = FibHelpers.Fib((int)n);
+            Dispatcher.Invoke(() => label.Content = result);
         }
     }
 }
