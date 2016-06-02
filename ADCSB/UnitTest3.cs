@@ -4,6 +4,7 @@ using System.Linq;
 using Shouldly;
 using System.Collections.Generic;
 using System.Collections;
+using Shouldly;
 
 namespace ADCSB
 {
@@ -89,9 +90,6 @@ namespace ADCSB
         
         }
 
-
-   
-
         private IEnumerable<int> Fib()
         {
             int current = 0;
@@ -104,6 +102,29 @@ namespace ADCSB
                 next = next + temp;
 
                 yield return current;
+            }
+        }
+
+        [TestMethod]
+        public void YieldReturnDemoOnzeEigenWhereImplementatie()
+        {
+            int[] items = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            var query = items.OnzeEigenWhere(i => i > 5);
+
+            query.ShouldBe(new int[] { 6, 7, 8, 9 });
+        }
+    }
+
+    static class OnzeEigenLinqExtensions
+    {
+        public static IEnumerable<T> OnzeEigenWhere<T>(this IEnumerable<T> items, Func<T, bool> predicate)
+        {
+            foreach (var item in items)
+            {
+                if (predicate(item))
+                {
+                    yield return item;
+                }
             }
         }
     }
