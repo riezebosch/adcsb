@@ -67,7 +67,6 @@ namespace ADCSB
         public void DefferedExecutionMetEnumeratorEnFibonacciDemo()
         {
             var fib = Fib().GetEnumerator();
-            fib.Reset();
 
             for (int i = 0; i < 10; i++)
             {
@@ -76,62 +75,36 @@ namespace ADCSB
             }
         }
 
-
-        class Fibonacci : IEnumerable<int>
+        [TestMethod]
+        public void YieldReturnInCombinatieMetLinq()
         {
-            class FibonacciEnumerator : IEnumerator<int>
+            var query = from i in Fib()
+                        where i % 2 == 0
+                        select i * 3;
+
+            foreach (var item in query.Take(10))
             {
-                private int next;
-
-                public int Current
-                {
-                    get;
-                    set;
-                }
-
-                object IEnumerator.Current
-                {
-                    get
-                    {
-                        return Current;
-                    }
-                }
-
-                public void Dispose()
-                {
-                }
-
-                public bool MoveNext()
-                {
-                    int temp = Current;
-                    Current = next;
-                    next = next + temp;
-
-                    return true;
-                }
-
-                public void Reset()
-                {
-
-                    Current = 0;
-                    next = 1;
-                }
+                Console.WriteLine(item);
             }
-
-            public IEnumerator<int> GetEnumerator()
-            {
-                return new FibonacciEnumerator();
-            }
-
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return GetEnumerator();
-            }
+        
         }
+
+
+   
 
         private IEnumerable<int> Fib()
         {
-            return new Fibonacci();
+            int current = 0;
+            int next = 1;
+
+            while (true)
+            {
+                int temp = current;
+                current = next;
+                next = next + temp;
+
+                yield return current;
+            }
         }
     }
 }
