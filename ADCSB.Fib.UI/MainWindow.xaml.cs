@@ -26,13 +26,10 @@ namespace ADCSB.Fib.UI
             InitializeComponent();
         }
 
-        private void button_Click(object sender, RoutedEventArgs e)
+        private async void button_Click(object sender, RoutedEventArgs e)
         {
             int input = int.Parse(textBox.Text);
-
-            CalculateFib(input)
-                .ContinueWith(t => label.Content = t.Result, 
-                TaskScheduler.FromCurrentSynchronizationContext());
+            label.Content = await CalculateFib(input);
         }
 
         private Task<int> CalculateFib(int n)
