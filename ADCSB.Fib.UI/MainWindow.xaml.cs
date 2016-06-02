@@ -30,15 +30,27 @@ namespace ADCSB.Fib.UI
         {
             int input = int.Parse(textBox.Text);
 
-            var fib = CalculateFib(input);
-            await Task.WhenAny(fib, Task.Delay(TimeSpan.FromSeconds(30)));
+            var source = new CancellationTokenSource();
+            var fib = CalculateFib(input, source.Token);
+            var timeout = Task
+                .Delay(TimeSpan.FromSeconds(10))
+                .ContinueWith(t => source.Cancel());
 
-            label.Content = fib.IsCompleted ? fib.Result.ToString() : "timeout";
+            await Task.WhenAny(fib, timeout);
+
+            try
+            {
+                label.Content = fib.Result;
+            }
+            catch (AggregateException ex)
+            {
+                label.Content = string.Join(", ", ex.InnerExceptions.Select(x => x.Message));
+            }
         }
 
-        private Task<int> CalculateFib(int n)
+        private Task<int> CalculateFib(int n, CancellationToken token)
         {
-            return Task.Run(() => FibHelpers.Fib(n));
+            return Task.Run(() => FibHelpers.Fib(n, token));
         }
     }
 }

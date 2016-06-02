@@ -10,7 +10,7 @@ namespace ADCSB.Fib.Tests
         public void Fib0()
         {
             int n = 0;
-            int fib = FibHelpers.Fib(n);
+            int fib = FibHelpers.Fib(n, null);
             fib.ShouldBe(0);
         }
 
@@ -18,7 +18,7 @@ namespace ADCSB.Fib.Tests
         public void Fib1()
         {
             int n = 1;
-            int fib = FibHelpers.Fib(n);
+            int fib = FibHelpers.Fib(n, null);
             fib.ShouldBe(1);
         }
 
@@ -26,7 +26,7 @@ namespace ADCSB.Fib.Tests
         public void Fib2()
         {
             int n = 2;
-            int fib = FibHelpers.Fib(2);
+            int fib = FibHelpers.Fib(2, null);
             fib.ShouldBe(1);
         }
     }
