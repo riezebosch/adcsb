@@ -37,8 +37,12 @@ namespace ADCSB
                 "Assen", "Amstelveen", "Alphen"
             };
 
-            var opdracht3 = from p in plaatsnamen
-                            select p.Last();
+
+            var opdracht3 = (from p in plaatsnamen
+                         group p by p.Last() into g
+                         group g.Key by g.Count() into g
+                         orderby g.Key descending
+                         select g).FirstOrDefault();
         
             opdracht3.ShouldBe(new[] { 'n' });
         }
