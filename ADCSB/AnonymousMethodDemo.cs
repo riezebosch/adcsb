@@ -60,5 +60,37 @@ namespace ADCSB
                 //output.WriteLine(string.Join(Environment.NewLine, methods.Select(delegate (MethodInfo m) { return m.Name; })));
             }
         }
+
+        [Fact]
+        public void HoeKanEenAnonymousMethodBijLokaalGedefinieerdeVariabelen()
+        {
+            bool aangeroepen = false;
+            Action a = () => aangeroepen = true;
+            a();
+
+            Assert.True(aangeroepen);
+        }
+
+
+       [Fact]
+        public void HoeKanEenAnonymousMethodBijLokaalGedefinieerdeVariabelen2()
+        {
+            var asdf = new GegenereerdeNestedAnonymousClass();
+            asdf.aangeroepen = false;
+            Action a = asdf.MijnEigenAnonymousMethode;
+            a();
+
+            Assert.True(asdf.aangeroepen);
+        }
+
+        class GegenereerdeNestedAnonymousClass
+        {
+            public bool aangeroepen;
+
+            public void MijnEigenAnonymousMethode()
+            {
+                aangeroepen = true;
+            }
+        }
     }
 }
