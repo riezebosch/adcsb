@@ -1,14 +1,23 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace ADCSB
 {
     public class GenericsDemo
     {
+        private readonly ITestOutputHelper output;
+
+        public GenericsDemo(ITestOutputHelper output)
+        {
+            this.output = output;
+        }
+
         [Fact]
         public void ArraysZijnVervelend()
         {
@@ -33,7 +42,32 @@ namespace ADCSB
             Assert.Throws<IndexOutOfRangeException>(() => mylist[3]);
         }
 
-        private class MyList
+        [Fact]
+        public void MyListImplementeertIEnumerable()
+        {
+            var mylist = new MyList { 1 };
+
+            int aantalkeeraangeroepen = 0;
+            foreach (var item in mylist)
+            {
+                output.WriteLine(item.ToString());
+                aantalkeeraangeroepen++;
+            }
+
+            Assert.Equal(1, aantalkeeraangeroepen);
+        }
+
+        [Fact]
+        public void MyListImplementeertIEnumerableMaarGaatNietBuidenZijnEigenBound()
+        {
+            var mylist = new MyList();
+            foreach (var item in mylist)
+            {
+                throw new InvalidOperationException("dit zou niet mogen worden uitgevoerd.");
+            }
+        }
+
+        private class MyList : IEnumerable
         {
             private int[] items;
             private int count;
@@ -63,6 +97,19 @@ namespace ADCSB
                     Array.Copy(items, temp, count);
 
                     items = temp;
+                }
+            }
+
+            public IEnumerator GetEnumerator()
+            {
+                int index = 0;
+                foreach (var item in items)
+                {
+                    if (index++ == count)
+                    {
+                        yield break;
+                    }
+                    yield return item;
                 }
             }
 
