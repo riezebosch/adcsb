@@ -51,10 +51,10 @@ namespace ADCSB
             var iets = new Iets2();
 
             // Je mag subscriben
-            iets.React += Console.WriteLine;
+            iets.React += (sender, e) => Console.WriteLine(e.Value);
 
             // Je mag removen
-            iets.React -= Console.WriteLine;
+            iets.React -= (sender, e) => Console.WriteLine(e.Value);
 
             // Maar je mag niet het lijstje overschrijven:
             // iets.React = null;
@@ -72,7 +72,8 @@ namespace ADCSB
 
         private class Iets2
         {
-            public event Action<int> React;
+            // ipv Action<int> het officiele event pattern van MS:
+            public event EventHandler<ReactEventArgs> React;
 
             // Een event levert door de compiler de volgende code op:
             // public Action<int> React { add; remove; }
@@ -80,8 +81,13 @@ namespace ADCSB
 
             public void Notify(int v)
             {
-                React?.Invoke(v);
+                React?.Invoke(this, new ReactEventArgs { Value = v });
             }
+
+        }
+        public class ReactEventArgs : EventArgs
+        {
+            public int Value { get; set; }
         }
 
         [Fact]
@@ -117,9 +123,9 @@ namespace ADCSB
 
             public int Received { get; private set; }
 
-            private void Whatever(int v)
+            private void Whatever(object sender, ReactEventArgs e)
             {
-                Received = v;
+                Received = e.Value;
             }
         }
 
@@ -137,7 +143,7 @@ namespace ADCSB
                     .GetField("React", BindingFlags.NonPublic | BindingFlags.Instance);
 
                 react.SetValue(iets, null);
-                
+
             }
         }
     }
