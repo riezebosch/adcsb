@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-//using System.Linq;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
@@ -32,38 +32,31 @@ namespace ADCSB
         }
 
         [Fact]
+        public void ChainingVanEnumerators()
+        {
+            int[] items = { 1, 2, 3, 4, 5, 6, 7, 9, 8 };
+
+            var result =
+                Enumerable.Select(
+                    Enumerable.Select(
+                        Enumerable.Where(items,
+                        i => i >= 2),
+                    i => i * 2),
+                i => i.ToString());
+
+            items
+                .Where(i => i >= 2)
+                .Select(i => i * 2)
+                .Select(i => i.ToString());
+        }
+
+        [Fact]
         public void SelectProjectsInputOnOutputUsingDelegate()
         {
             int[] items = { 1, 2, 3 };
 
             IEnumerable<string> result = Enumerable.Select(items, i => i.ToString());
             Assert.Equal(new string[] { "1", "2", "3" }, result);
-        }
-
-        delegate bool Where<T>(T input);
-        delegate TResult Select<T, TResult>(T input);
-
-        private class Enumerable
-        {
-            public static IEnumerable<T> Where<T>(IEnumerable<T> items, Where<T> where)
-            {
-                // hint: yield return :)
-                foreach (var item in items)
-                {
-                    if (where(item))
-                    {
-                        yield return item;
-                    }
-                }
-            }
-
-            public static IEnumerable<TResult> Select<T, TResult>(IEnumerable<T> items, Select<T, TResult> select)
-            {
-                foreach (var item in items)
-                {
-                    yield return select(item);
-                }
-            }
         }
 
         [Fact]
@@ -81,72 +74,99 @@ namespace ADCSB
                 output.WriteLine(item.ToString());
             }
         }
+    }
 
-        private class EnumerableZonderYield
+    delegate bool Where<T>(T input);
+    delegate TResult Select<T, TResult>(T input);
+
+    internal static class Enumerable
+    {
+        public static IEnumerable<T> Where<T>(this IEnumerable<T> items, Where<T> where)
         {
-            public static IEnumerable<T> Where<T>(IEnumerable<T> items, Where<T> where)
+            // hint: yield return :)
+            foreach (var item in items)
             {
-                return new MyEnumerable<T>(items, where);
-            }
-
-            private class MyEnumerable<T> : IEnumerable<T>
-            {
-                private IEnumerator<T> items;
-                private Where<T> where;
-
-                public MyEnumerable(IEnumerable<T> items, Where<T> where)
+                if (where(item))
                 {
-                    this.items = items.GetEnumerator();
-                    this.where = where;
-                }
-
-                public IEnumerator<T> GetEnumerator()
-                {
-                    return new MyEmerator<T>(items, where);
-                }
-
-                IEnumerator IEnumerable.GetEnumerator()
-                {
-                    return GetEnumerator();
+                    yield return item;
                 }
             }
-            private class MyEmerator<T> : IEnumerator<T>
+        }
+
+        public static IEnumerable<TResult> Select<T, TResult>(this IEnumerable<T> items, Select<T, TResult> select)
+        {
+            foreach (var item in items)
             {
-                private IEnumerator<T> items;
-                private Where<T> where;
+                yield return select(item);
+            }
+        }
+    }
 
-                public MyEmerator(IEnumerator<T> items, Where<T> where)
-                {
-                    this.items = items;
-                    this.where = where;
-                }
+  
 
-                public T Current => items.Current;
+    internal class EnumerableZonderYield
+    {
+        public static IEnumerable<T> Where<T>(IEnumerable<T> items, Where<T> where)
+        {
+            return new MyEnumerable<T>(items, where);
+        }
 
-                object IEnumerator.Current => Current;
+        private class MyEnumerable<T> : IEnumerable<T>
+        {
+            private IEnumerator<T> items;
+            private Where<T> where;
 
-                public void Dispose()
-                {
-                    items.Dispose();
-                }
-
-                public bool MoveNext()
-                {
-                    bool hasNext = items.MoveNext();
-                    while (hasNext && !where(items.Current))
-                    {
-                        hasNext = items.MoveNext();
-                    }
-
-                    return hasNext;
-                }
-
-                public void Reset()
-                {
-                    throw new NotImplementedException();
-                }
+            public MyEnumerable(IEnumerable<T> items, Where<T> where)
+            {
+                this.items = items.GetEnumerator();
+                this.where = where;
             }
 
+            public IEnumerator<T> GetEnumerator()
+            {
+                return new MyEmerator<T>(items, where);
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return GetEnumerator();
+            }
+        }
+        private class MyEmerator<T> : IEnumerator<T>
+        {
+            private IEnumerator<T> items;
+            private Where<T> where;
+
+            public MyEmerator(IEnumerator<T> items, Where<T> where)
+            {
+                this.items = items;
+                this.where = where;
+            }
+
+            public T Current => items.Current;
+
+            object IEnumerator.Current => Current;
+
+            public void Dispose()
+            {
+                items.Dispose();
+            }
+
+            public bool MoveNext()
+            {
+                bool hasNext = items.MoveNext();
+                while (hasNext && !where(items.Current))
+                {
+                    hasNext = items.MoveNext();
+                }
+
+                return hasNext;
+            }
+
+            public void Reset()
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }
