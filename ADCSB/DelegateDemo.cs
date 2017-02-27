@@ -109,23 +109,46 @@ namespace ADCSB
             Func<int, bool> p2 = VoorbeeldFunctieMetResult;
         }
 
-        private static void VoorbeeldFunctie(int i)
+        private void VoorbeeldFunctie(int i)
         {
 
         }
 
-        private static void VoorbeeldFunctie(int i, string s)
+        private void VoorbeeldFunctie(int i, string s)
         {
         }
 
-        private static int VoorbeeldFunctieMetResult()
+        private int VoorbeeldFunctieMetResult()
         {
             return 13;
         }
 
-        private static bool VoorbeeldFunctieMetResult(int i)
+        private bool VoorbeeldFunctieMetResult(int i)
         {
             return true;
+        }
+
+        [Fact]
+        public void DelegatesZijnMulticast()
+        {
+            Action<int> a = Console.WriteLine;
+            a(13);
+
+            a += Console.Write;
+            a += VoorbeeldFunctie;
+            a += i => { };
+            a(21);
+
+            a -= Console.Write;
+
+            Action<bool> b = Assert.True;
+            b += Assert.True;
+
+            b -= Assert.True;
+            b -= Assert.True;
+
+            //b += Assert.False;
+            b?.Invoke(false);
         }
     }
 }
