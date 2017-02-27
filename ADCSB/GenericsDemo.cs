@@ -29,7 +29,7 @@ namespace ADCSB
         public void AbstractieOverArrayDieAutomatischMeegroeit()
         {
             int[] items = { 1, 2, 3 };
-            var mylist = new MyList(items);
+            var mylist = new MyList<int>(items);
             mylist.Add(4);
 
             Assert.Equal(4, mylist[3]);
@@ -38,14 +38,14 @@ namespace ADCSB
         [Fact]
         public void BuitenDeRangeVanToegevoegdeItemsOpzoekenGooitEenIndexOutOfRangeException()
         {
-            var mylist = new MyList();
+            var mylist = new MyList<int>();
             Assert.Throws<IndexOutOfRangeException>(() => mylist[3]);
         }
 
         [Fact]
         public void MyListImplementeertIEnumerable()
         {
-            var mylist = new MyList { 1 };
+            var mylist = new MyList<int> { 1 };
 
             int aantalkeeraangeroepen = 0;
             foreach (var item in mylist)
@@ -60,30 +60,39 @@ namespace ADCSB
         [Fact]
         public void MyListImplementeertIEnumerableMaarGaatNietBuidenZijnEigenBound()
         {
-            var mylist = new MyList();
+            var mylist = new MyList<int>();
             foreach (var item in mylist)
             {
                 throw new InvalidOperationException("dit zou niet mogen worden uitgevoerd.");
             }
         }
 
-        private class MyList : IEnumerable
+        [Fact]
+        public void MyListVoorWillekeurigeAndereTypes()
         {
-            private int[] items;
+            var mylist = new MyList<string>();
+            mylist.Add("eerste");
+
+            string result = mylist[0];
+        }
+
+        private class MyList<T> : IEnumerable<T>
+        {
+            private T[] items;
             private int count;
 
             public MyList()
             {
-                this.items = new int[10];
+                this.items = new T[10];
             }
 
-            public MyList(int[] items)
+            public MyList(T[] items)
             {
                 this.items = items;
                 count = items.Length;
             }
 
-            internal void Add(int item)
+            internal void Add(T item)
             {
                 EnsureCapacity();
                 items[count++] = item;
@@ -93,14 +102,19 @@ namespace ADCSB
             {
                 if (items.Length == count)
                 {
-                    var temp = new int[count * 2];
+                    var temp = new T[count * 2];
                     Array.Copy(items, temp, count);
 
                     items = temp;
                 }
             }
 
-            public IEnumerator GetEnumerator()
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+               return GetEnumerator(); 
+            }
+
+            public IEnumerator<T> GetEnumerator()
             {
                 int index = 0;
                 foreach (var item in items)
@@ -113,7 +127,7 @@ namespace ADCSB
                 }
             }
 
-            public int this[int index]
+            public T this[int index]
             {
                 get
                 {
