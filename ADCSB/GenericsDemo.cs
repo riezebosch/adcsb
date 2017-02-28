@@ -116,14 +116,9 @@ namespace ADCSB
 
             public IEnumerator<T> GetEnumerator()
             {
-                int index = 0;
-                foreach (var item in items)
+                for (int i = 0; i < count; i++)
                 {
-                    if (index++ == count)
-                    {
-                        yield break;
-                    }
-                    yield return item;
+                    yield return items[i];
                 }
             }
 
