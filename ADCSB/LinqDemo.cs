@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace ADCSB
 {
@@ -14,6 +15,12 @@ namespace ADCSB
             new Persoon { Id = 1, Naam = "Pietje", Geboortedatum = new DateTime(1990, 2,14) },
             new Persoon { Id = 2, Naam = "Ruben", Geboortedatum = new DateTime(1982, 10, 9) }
         };
+        private readonly ITestOutputHelper output;
+
+        public LinqDemo(ITestOutputHelper output)
+        {
+            this.output = output;
+        }
 
         [Fact]
         public void QuerySyntax_ExpressionSyntax_ComprehensionSyntax()
@@ -41,7 +48,7 @@ namespace ADCSB
         public void ComparerOndersteuningInQuerySyntax()
         {
             string[] input = { "aa", "b", "Ab" };
-            string[] expected = { "aa", "Ab", "b" };
+            string[] expected = { "Ab", "aa", "b" };
 
             var result1 = input.OrderBy(a => a, StringComparer.Ordinal);
             var result2 = from a in input
@@ -128,6 +135,43 @@ namespace ADCSB
 
         }
 
+        [Fact]
+        public void LinqExceptions()
+        {
+            var items = System.Linq.Enumerable.Range(0, 5000);
+            int result = items.FirstOrDefault();
+            
+            Assert.Equal(0, result);
+
+            for (int i = 0; items.Any(); i++)
+            {
+                output.WriteLine(string.Join(", ", items.Take(20)));
+                items = items.Skip(20);
+            }
+        }
+
+        [Fact]
+        public void CastDemo()
+        {
+            var ouderwets = new System.Collections.ArrayList(new object[] { 1, "twee", 2, 3, 4 });
+            ouderwets.OfType<int>().Where(q => q % 2 == 0);
+
+            int i = 3;
+            double j = i;
+
+            Assert.Throws<InvalidCastException>(() => (double)(object)i);
+
+            var integers = new List<int> { 1, 2, 3 };
+            var doubles = integers.Cast<double>();
+
+            Assert.Throws<InvalidCastException>(() => doubles.Any());
+
+            var students = new List<Student> { new Student { } };
+            var people = students.OfType<Persoon>();
+
+            Assert.NotEmpty(people);
+        }
+
         private class Persoon
         {
             public DateTime Geboortedatum { get; internal set; }
@@ -139,6 +183,10 @@ namespace ADCSB
         {
             public int Eigenaar { get; internal set; }
             public string Merk { get; internal set; }
+        }
+
+        private class Student : Persoon
+        {
         }
     }
 }
