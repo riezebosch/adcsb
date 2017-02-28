@@ -49,7 +49,10 @@ namespace ADCSB
                           select a;
 
             Assert.Equal(expected, result1);
-            Assert.Equal(expected, result2);
+
+            // De StringComparer wordt uitgevoerd in een ThenBy 
+            // en niet als parameter van de originele OrderBy"
+            Assert.NotEqual(expected, result2);
         }
 
         [Fact]
