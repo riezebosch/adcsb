@@ -76,6 +76,13 @@ namespace ADCSB
             string result = mylist[0];
         }
 
+        [Fact]
+        public void IndexerGebruikerGroterDanOpslagStructuur()
+        {
+            var mylist = new MyList<int>();
+            Assert.Throws<ArgumentOutOfRangeException>(() => mylist[5] = 13);
+        }
+
         private class MyList<T> : IEnumerable<T>
         {
             private T[] items;
@@ -132,7 +139,14 @@ namespace ADCSB
                     }
                     return items[index];
                 }
-                set { items[index] = value; }
+                set
+                {
+                    if (index >= count)
+                    {
+                        throw new ArgumentOutOfRangeException();
+                    }
+                    items[index] = value;
+                }
             }
         }
 
