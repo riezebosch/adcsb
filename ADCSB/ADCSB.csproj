@@ -204,6 +204,7 @@
     <Compile Include="ExpressionTreeDemo.cs" />
     <Compile Include="ExtensionMethodsDemo.cs" />
     <Compile Include="GenericsDemo.cs" />
+    <Compile Include="LinqDemo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="EventDemo.cs" />
   </ItemGroup>
