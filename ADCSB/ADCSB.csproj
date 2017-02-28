@@ -199,6 +199,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AnonymousMethodDemo.cs" />
+    <Compile Include="CallerInfoDemo.cs" />
+    <Compile Include="CSharp6Features.cs" />
     <Compile Include="DelegateDemo.cs" />
     <Compile Include="EnumerableTests.cs" />
     <Compile Include="ExpressionTreeDemo.cs" />

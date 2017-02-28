@@ -83,6 +83,49 @@ namespace ADCSB
             Assert.Throws<ArgumentOutOfRangeException>(() => mylist[5] = 13);
         }
 
+        [Fact]
+        public void ToevoegenViaOperators()
+        {
+            var mylist = new MyList<int>();
+            mylist += 1;
+
+            Assert.Equal(new[] { 1 }, mylist);
+        }
+
+        [Fact]
+        public void CombineerTweeLijstjes()
+        {
+            // Arrange
+            var items1 = new MyList<int> { 1, 2, 3 };
+            var items2 = new MyList<int> { 4, 5, 6 };
+
+            // Act
+            var items3 = items1 + items2;
+
+            // Assert
+            var expected = new[] { 1, 2, 3, 4, 5, 6 };
+            Assert.Equal(expected, items3);
+            Assert.NotEqual(expected, items1);
+            Assert.NotEqual(expected, items2);
+        }
+
+        [Fact]
+        public void ImplicitCastVanArray()
+        {
+            MyList<int> mylist = new []{ 1, 2, 3 };
+            Assert.NotEmpty(mylist);
+        }
+
+        [Fact]
+        public void AnderVoorbeeldVanExplicitEnImplictCast()
+        {
+            int i = 13;
+            double j = i;
+
+            float k = float.MaxValue;
+            int l = (int)k;
+        }
+
         private class MyList<T> : IEnumerable<T>
         {
             private T[] items;
@@ -147,6 +190,22 @@ namespace ADCSB
                     }
                     items[index] = value;
                 }
+            }
+
+            public static MyList<T> operator + (MyList<T> items, T item)
+            {
+                items.Add(item);
+                return items;
+            }
+
+            public static MyList<T> operator + (MyList<T> items1, MyList<T> items2)
+            {
+                return new MyList<T>(items1.Concat(items2).ToArray());
+            }
+
+            public static implicit operator MyList<T> (T[] items)
+            {
+                return new MyList<T>(items);
             }
         }
 

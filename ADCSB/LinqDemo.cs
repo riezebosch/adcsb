@@ -166,6 +166,9 @@ namespace ADCSB
 
             Assert.Throws<InvalidCastException>(() => doubles.Any());
 
+            doubles = integers.Select<int, double>(k => k);
+            Assert.NotEmpty(doubles);
+
             var students = new List<Student> { new Student { } };
             var people = students.OfType<Persoon>();
 
