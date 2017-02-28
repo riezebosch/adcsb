@@ -39,6 +39,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.EntityFrameworkCore, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.EntityFrameworkCore.1.1.0\lib\net451\Microsoft.EntityFrameworkCore.dll</HintPath>
       <Private>True</Private>
@@ -202,6 +203,7 @@
     <Compile Include="CallerInfoDemo.cs" />
     <Compile Include="CSharp6Features.cs" />
     <Compile Include="DelegateDemo.cs" />
+    <Compile Include="DynamicDemo.cs" />
     <Compile Include="EnumerableTests.cs" />
     <Compile Include="ExpressionTreeDemo.cs" />
     <Compile Include="ExtensionMethodsDemo.cs" />
