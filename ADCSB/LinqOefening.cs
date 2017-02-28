@@ -57,13 +57,22 @@ namespace ADCSB
         [Fact]
         public void Opdracht3()
         {
-            var query = (from p in plaatsnamen
-                         group p by p.Last() into p
-                         group p by p.Count() into p
-                         orderby p.Key descending
-                         select p).First().Select(p => p.Key);
+            var query1 = (from p in plaatsnamen
+                          group p by p.Last() into p
+                          group p by p.Count() into p
+                          orderby p.Key descending
+                          select p).First().Select(p => p.Key);
 
-            Assert.Equal(new[] { 'n' }, query);
+            var query2 = plaatsnamen
+                .GroupBy(p => p.Last())
+                .GroupBy(p => p.Count())
+                .OrderByDescending(p => p.Key)
+                .First()
+                .Select(p => p.Key);
+
+            var expected = new[] { 'n' };
+            Assert.Equal(expected, query1);
+            Assert.Equal(expected, query2);
         }
     }
 }
