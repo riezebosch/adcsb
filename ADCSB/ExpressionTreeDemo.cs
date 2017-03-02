@@ -30,7 +30,6 @@ namespace ADCSB
 
         private void PrintExpression(Expression<Predicate<int>> expr)
         {
-            //expr = Expression.Lambda<Predicate<int>>(Expression.Equal(((BinaryExpression)expr.Body).Left, Expression.Constant(1)));
             expr.Compile().Invoke(13);
             output.WriteLine(expr.ToString());
         }
@@ -39,6 +38,23 @@ namespace ADCSB
         {
             p(13);
             output.WriteLine(p.ToString());
+        }
+
+        [Fact]
+        public void RewriteExpression()
+        {
+            Expression<Predicate<int>> expr = i => i % 2 == 0;
+            Assert.True(expr.Compile()(2));
+            
+            // Rebuilding the expression by using a different constant in the equation:
+            expr = Expression.Lambda<Predicate<int>>(
+                Expression.Equal(
+                    ((BinaryExpression)expr.Body).Left, // <-- re-using the i % 2 part
+                    Expression.Constant(1)),  // <-- replacing constant 0 with constant 1
+                expr.Parameters);
+
+            Assert.False(expr.Compile()(2));
+            Assert.True(expr.Compile()(3));
         }
 
         [Fact]
