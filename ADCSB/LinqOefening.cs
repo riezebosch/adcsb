@@ -38,7 +38,7 @@ namespace ADCSB
         [Fact]
         public void Opdracht2()
         {
-            var query = plaatsnamen;
+            var query = plaatsnamen.Count();
             Assert.Equal(15, query);
         }
 
