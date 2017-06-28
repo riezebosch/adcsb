@@ -24,10 +24,7 @@ namespace ADCSB
         [Fact]
         public void Opdracht1()
         {
-            var query = from p in plaatsnamen
-                        where p.Length < 8
-                        orderby p.Length, p
-                        select p;
+            var query = plaatsnamen;
 
             Assert.Equal(new[] { "Assen", "Alphen", "Arnhem" }, query);
         }
@@ -41,9 +38,7 @@ namespace ADCSB
         [Fact]
         public void Opdracht2()
         {
-            var query = plaatsnamen
-                .Where(p => p.Last() == 'm')
-                .Sum(p => p.Length);
+            var query = plaatsnamen;
             Assert.Equal(15, query);
         }
 
@@ -57,22 +52,12 @@ namespace ADCSB
         [Fact]
         public void Opdracht3()
         {
-            var query1 = (from p in plaatsnamen
-                          group p by p.Last() into p
-                          group p by p.Count() into p
-                          orderby p.Key descending
-                          select p).First().Select(p => p.Key);
+            var query = from p in plaatsnamen
+                        select p.Last();
 
-            var query2 = plaatsnamen
-                .GroupBy(p => p.Last())
-                .GroupBy(p => p.Count())
-                .OrderByDescending(p => p.Key)
-                .First()
-                .Select(p => p.Key);
 
             var expected = new[] { 'n' };
-            Assert.Equal(expected, query1);
-            Assert.Equal(expected, query2);
+            Assert.Equal(expected, query);
         }
     }
 }
